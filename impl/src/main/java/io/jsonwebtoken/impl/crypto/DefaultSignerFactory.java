@@ -31,6 +31,7 @@ public class DefaultSignerFactory implements SignerFactory {
 
         switch (alg) {
             case HS256:
+            case HS256_S:
             case HS384:
             case HS512:
                 return new MacSigner(alg, key);

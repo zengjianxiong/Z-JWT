@@ -21,6 +21,7 @@ import io.jsonwebtoken.lang.Classes;
 
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
+
 import java.security.KeyPair;
 import java.util.Arrays;
 import java.util.Collections;
@@ -41,7 +42,7 @@ public final class Keys {
 
     //purposefully ordered higher to lower:
     private static final List<SignatureAlgorithm> PREFERRED_HMAC_ALGS = Collections.unmodifiableList(Arrays.asList(
-        SignatureAlgorithm.HS512, SignatureAlgorithm.HS384, SignatureAlgorithm.HS256));
+            SignatureAlgorithm.HS512, SignatureAlgorithm.HS384, SignatureAlgorithm.HS256, SignatureAlgorithm.HS256_S));
 
     //prevent instantiation
     private Keys() {
@@ -87,12 +88,12 @@ public final class Keys {
         }
 
         String msg = "The specified key byte array is " + bitLength + " bits which " +
-            "is not secure enough for any JWT HMAC-SHA algorithm.  The JWT " +
-            "JWA Specification (RFC 7518, Section 3.2) states that keys used with HMAC-SHA algorithms MUST have a " +
-            "size >= 256 bits (the key size must be greater than or equal to the hash " +
-            "output size).  Consider using the " + Keys.class.getName() + "#secretKeyFor(SignatureAlgorithm) method " +
-            "to create a key guaranteed to be secure enough for your preferred HMAC-SHA algorithm.  See " +
-            "https://tools.ietf.org/html/rfc7518#section-3.2 for more information.";
+                "is not secure enough for any JWT HMAC-SHA algorithm.  The JWT " +
+                "JWA Specification (RFC 7518, Section 3.2) states that keys used with HMAC-SHA algorithms MUST have a " +
+                "size >= 256 bits (the key size must be greater than or equal to the hash " +
+                "output size).  Consider using the " + Keys.class.getName() + "#secretKeyFor(SignatureAlgorithm) method " +
+                "to create a key guaranteed to be secure enough for your preferred HMAC-SHA algorithm.  See " +
+                "https://tools.ietf.org/html/rfc7518#section-3.2 for more information.";
         throw new WeakKeyException(msg);
     }
 
@@ -132,6 +133,7 @@ public final class Keys {
         Assert.notNull(alg, "SignatureAlgorithm cannot be null.");
         switch (alg) {
             case HS256:
+            case HS256_S:
             case HS384:
             case HS512:
                 return Classes.invokeStatic(MAC, "generateKey", SIG_ARG_TYPES, alg);

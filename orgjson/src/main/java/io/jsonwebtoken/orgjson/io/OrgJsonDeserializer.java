@@ -80,12 +80,7 @@ public class OrgJsonDeserializer implements Deserializer<Object> {
         Iterator<String> iterator = o.keys();
         while (iterator.hasNext()) {
             String key = iterator.next();
-            Object value = null;
-            try {
-                value = o.get(key);
-            } catch (JSONException e) {
-                throw new RuntimeException(e);
-            }
+            Object value = o.get(key);
             value = convertIfNecessary(value);
             map.put(key, value);
         }
@@ -97,12 +92,7 @@ public class OrgJsonDeserializer implements Deserializer<Object> {
         List<Object> list = new ArrayList<>(length);
         // https://github.com/jwtk/jjwt/issues/380: use a.get(i) and *not* a.toList() for Android compatibility:
         for( int i = 0; i < length; i++) {
-            Object value = null;
-            try {
-                value = a.get(i);
-            } catch (JSONException e) {
-                throw new RuntimeException(e);
-            }
+            Object value = a.get(i);
             value = convertIfNecessary(value);
             list.add(value);
         }

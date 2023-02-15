@@ -1,15 +1,22 @@
 package com.zengjianxiong.zjwt
 
 import android.os.Bundle
-import com.google.android.material.snackbar.Snackbar
+import android.util.Log
+import android.view.Menu
+import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
-import android.view.Menu
-import android.view.MenuItem
+import com.google.android.material.snackbar.Snackbar
 import com.zengjianxiong.zjwt.databinding.ActivityMainBinding
+import io.jsonwebtoken.JwtBuilder
+import io.jsonwebtoken.Jwts
+import io.jsonwebtoken.SignatureAlgorithm
+import io.jsonwebtoken.security.Keys
+import java.nio.charset.StandardCharsets
+import java.security.Key
 
 class MainActivity : AppCompatActivity() {
 
@@ -32,6 +39,12 @@ class MainActivity : AppCompatActivity() {
             Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                 .setAction("Action", null).show()
         }
+
+        val key: Key = Keys.secretKeyFor(SignatureAlgorithm.HS256_S)
+        val jwtBuilder: JwtBuilder =
+            Jwts.builder().setPayload("dddd").signWith(key, SignatureAlgorithm.HS256_S)
+        val result = jwtBuilder.compact()
+        Log.d("--", result)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

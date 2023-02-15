@@ -17,12 +17,12 @@ package io.jsonwebtoken.impl.compression;
 
 
 import io.jsonwebtoken.impl.lang.Services;
-import io.jsonwebtoken.io.CompressionCodec;
-import io.jsonwebtoken.io.CompressionCodecResolver;
-import io.jsonwebtoken.io.CompressionException;
-import io.jsonwebtoken.io.Header;
-import io.jsonwebtoken.io.lang.Assert;
-import io.jsonwebtoken.io.lang.Strings;
+import io.jsonwebtoken.CompressionCodec;
+import io.jsonwebtoken.CompressionCodecResolver;
+import io.jsonwebtoken.CompressionException;
+import io.jsonwebtoken.Header;
+import io.jsonwebtoken.lang.Assert;
+import io.jsonwebtoken.lang.Strings;
 
 
 import java.util.Collections;

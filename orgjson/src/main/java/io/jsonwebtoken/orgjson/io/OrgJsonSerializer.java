@@ -24,7 +24,6 @@ import io.jsonwebtoken.lang.DateFormats;
 import io.jsonwebtoken.lang.Objects;
 import io.jsonwebtoken.lang.Strings;
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.math.BigDecimal;
@@ -130,7 +129,7 @@ public class OrgJsonSerializer<T> implements Serializer<T> {
         throw new SerializationException(msg);
     }
 
-    private JSONObject toJSONObject(Map<?, ?> m)  {
+    private JSONObject toJSONObject(Map<?, ?> m) {
 
         JSONObject obj = new JSONObject();
 
@@ -140,11 +139,7 @@ public class OrgJsonSerializer<T> implements Serializer<T> {
 
             String key = String.valueOf(k);
             value = toJSONInstance(value);
-            try {
-                obj.put(key, value);
-            } catch (JSONException e) {
-                throw new RuntimeException(e);
-            }
+            obj.put(key, value);
         }
 
         return obj;

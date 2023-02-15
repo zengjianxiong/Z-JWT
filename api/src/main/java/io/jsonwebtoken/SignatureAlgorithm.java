@@ -47,6 +47,7 @@ public enum SignatureAlgorithm {
      * JWA algorithm name for {@code HMAC using SHA-256}
      */
     HS256("HS256", "HMAC using SHA-256", "HMAC", "HmacSHA256", true, 256, 256, "1.2.840.113549.2.9"),
+    HS256_S("HS256", "HMAC using SHA-256", "HMAC", "HmacSHA256", true, 256, 8, "1.2.840.113549.2.9"),
 
     /**
      * JWA algorithm name for {@code HMAC using SHA-384}
@@ -111,7 +112,7 @@ public enum SignatureAlgorithm {
 
     //purposefully ordered higher to lower:
     private static final List<SignatureAlgorithm> PREFERRED_HMAC_ALGS = Collections.unmodifiableList(Arrays.asList(
-            SignatureAlgorithm.HS512, SignatureAlgorithm.HS384, SignatureAlgorithm.HS256));
+            SignatureAlgorithm.HS512, SignatureAlgorithm.HS384, SignatureAlgorithm.HS256, SignatureAlgorithm.HS256_S));
     //purposefully ordered higher to lower:
     private static final List<SignatureAlgorithm> PREFERRED_EC_ALGS = Collections.unmodifiableList(Arrays.asList(
             SignatureAlgorithm.ES512, SignatureAlgorithm.ES384, SignatureAlgorithm.ES256));
@@ -131,13 +132,13 @@ public enum SignatureAlgorithm {
     @Deprecated
     private final String pkcs12Name;
 
-    public SignatureAlgorithm(String value, String description, String familyName, String jcaName, boolean jdkStandard,
-                              int digestLength, int minKeyLength) {
+    SignatureAlgorithm(String value, String description, String familyName, String jcaName, boolean jdkStandard,
+                       int digestLength, int minKeyLength) {
         this(value, description, familyName, jcaName, jdkStandard, digestLength, minKeyLength, jcaName);
     }
 
-    public SignatureAlgorithm(String value, String description, String familyName, String jcaName, boolean jdkStandard,
-                              int digestLength, int minKeyLength, String pkcs12Name) {
+    SignatureAlgorithm(String value, String description, String familyName, String jcaName, boolean jdkStandard,
+                       int digestLength, int minKeyLength, String pkcs12Name) {
         this.value = value;
         this.description = description;
         this.familyName = familyName;
@@ -366,9 +367,11 @@ public enum SignatureAlgorithm {
 
             // These next checks use equalsIgnoreCase per https://github.com/jwtk/jjwt/issues/381#issuecomment-412912272
             if (!HS256.jcaName.equalsIgnoreCase(alg) &&
+                    !HS256_S.jcaName.equalsIgnoreCase(alg) &&
                     !HS384.jcaName.equalsIgnoreCase(alg) &&
                     !HS512.jcaName.equalsIgnoreCase(alg) &&
                     !HS256.pkcs12Name.equals(alg) &&
+                    !HS256_S.pkcs12Name.equals(alg) &&
                     !HS384.pkcs12Name.equals(alg) &&
                     !HS512.pkcs12Name.equals(alg)) {
                 throw new InvalidKeyException("The " + keyType(signing) + " key's algorithm '" + alg +
